@@ -7,708 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Pacifico&display=swap" rel="stylesheet"/>
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --deep:    #0a0718;
-      --mid:     #130d2e;
-      --violet:  #1e1248;
-      --purple:  #6b3fa0;
-      --lavender:#a07fd4;
-      --lilac:   #c9a8e8;
-      --pink:    #f0c0ff;
-      --gold:    #ffd97d;
-      --ivory:   #f5ecd7;
-      --muted:   rgba(245,236,215,0.65);
-      --glass:   rgba(255,255,255,0.07);
-      --glass2:  rgba(255,255,255,0.12);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--deep);
-      color: var(--ivory);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* ── STARS ── */
-    .stars {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: white;
-      animation: twinkle var(--d) ease-in-out infinite;
-    }
-    @keyframes twinkle {
-      0%,100% { opacity: 0.1; transform: scale(1); }
-      50%      { opacity: 0.9; transform: scale(1.4); }
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 48px;
-      background: linear-gradient(to bottom, rgba(10,7,24,0.9), transparent);
-    }
-    .nav-logo {
-      font-family: 'Pacifico', cursive;
-      font-size: 26px;
-      color: var(--ivory);
-      text-decoration: none;
-      letter-spacing: 0.5px;
-    }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 400;
-      transition: color 0.25s;
-      position: relative;
-    }
-    .nav-links a.active { color: var(--ivory); }
-    .nav-links a.active::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0; right: 0;
-      height: 1.5px;
-      background: var(--ivory);
-      border-radius: 2px;
-    }
-    .nav-links a:hover { color: var(--ivory); }
-    .nav-resume {
-      background: transparent;
-      border: 1px solid rgba(245,236,215,0.4);
-      color: var(--ivory);
-      font-size: 13px;
-      font-family: 'Inter', sans-serif;
-      padding: 9px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      text-decoration: none;
-      transition: all 0.25s;
-    }
-    .nav-resume:hover {
-      background: rgba(245,236,215,0.1);
-      border-color: rgba(245,236,215,0.7);
-    }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-    }
-
-    /* Sky gradient layers */
-    .hero-sky {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 70% 20%, #3a1f6e 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 20% 50%, #1a0a3d 0%, transparent 55%),
-        radial-gradient(ellipse 100% 80% at 50% 0%, #251050 0%, #0d0820 50%, #060412 100%);
-    }
-
-    /* Cloud layers */
-    .cloud {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(40px);
-      pointer-events: none;
-    }
-    .c1 { width:700px;height:300px;background:rgba(120,60,200,0.18);top:8%;left:5%;  }
-    .c2 { width:500px;height:250px;background:rgba(80,30,160,0.22);top:15%;right:0%; }
-    .c3 { width:900px;height:200px;background:rgba(100,50,180,0.12);top:30%;left:20%;}
-    .c4 { width:400px;height:180px;background:rgba(200,160,255,0.08);top:40%;left:-5%;}
-    .c5 { width:600px;height:200px;background:rgba(60,20,120,0.25);bottom:15%;right:5%;}
-    .c6 { width:800px;height:150px;background:rgba(40,10,100,0.3);bottom:5%;left:10%; }
-
-    /* Floating village silhouette */
-    .village {
-      position: absolute;
-      right: 0; top: 0;
-      width: 62%;
-      height: 90%;
-      pointer-events: none;
-    }
-
-    /* Bridge glow */
-    .bridge-glow {
-      position: absolute;
-      bottom: 32%;
-      left: 30%;
-      width: 40%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255,217,125,0.3), rgba(255,217,125,0.5), rgba(255,217,125,0.3), transparent);
-      filter: blur(3px);
-    }
-
-    /* Fireflies */
-    .firefly {
-      position: absolute;
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 6px 2px rgba(255,217,125,0.8);
-      animation: float var(--fd) ease-in-out infinite, twinkle var(--ft) ease-in-out infinite;
-    }
-    @keyframes float {
-      0%,100% { transform: translate(0,0); }
-      33%      { transform: translate(var(--fx), var(--fy)); }
-      66%      { transform: translate(calc(var(--fx)*-0.5), calc(var(--fy)*1.2)); }
-    }
-
-    /* Hero content */
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      padding: 0 72px 0 72px;
-      padding-top: 120px;
-      max-width: 560px;
-      padding-bottom: 0;
-    }
-    .hero-welcome {
-      font-size: 14px;
-      color: var(--gold);
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .star-icon { font-size: 12px; }
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(46px, 7vw, 80px);
-      font-weight: 900;
-      line-height: 1.0;
-      color: var(--ivory);
-      margin-bottom: 20px;
-      letter-spacing: -1px;
-    }
-    .hero-sub {
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 360px;
-      line-height: 1.8;
-      margin-bottom: 36px;
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(245,236,215,0.1);
-      border: 1px solid rgba(245,236,215,0.3);
-      color: var(--ivory);
-      text-decoration: none;
-      padding: 14px 28px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.3s;
-      backdrop-filter: blur(8px);
-    }
-    .hero-cta:hover {
-      background: rgba(245,236,215,0.18);
-      transform: translateY(-2px);
-    }
-
-    /* Quote card */
-    .quote-card {
-      position: absolute;
-      right: 6%;
-      top: 38%;
-      width: 220px;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 20px;
-      z-index: 10;
-    }
-    .quote-icon { font-size: 24px; margin-bottom: 10px; }
-    .quote-text {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 13.5px;
-      color: var(--ivory);
-      line-height: 1.75;
-    }
-    .quote-heart { margin-top: 10px; font-size: 14px; color: #f9a8d4; }
-
-    /* Bottom nav icons */
-    .hero-bottom {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      padding: 48px 0 40px;
-    }
-    .nav-icon-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.25s;
-    }
-    .nav-icon-item:hover { transform: translateY(-4px); }
-    .nav-icon-circle {
-      width: 54px; height: 54px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      backdrop-filter: blur(8px);
-    }
-    .nav-icon-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ivory);
-      margin-bottom: 3px;
-    }
-    .nav-icon-desc {
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-      max-width: 90px;
-      line-height: 1.45;
-    }
-
-    /* Scroll arrow */
-    .scroll-arrow {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      width: 36px; height: 36px;
-      border: 1px solid rgba(245,236,215,0.3);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 16px;
-      animation: bounce 2s ease-in-out infinite;
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(6px); }
-    }
-
-    /* Scroll sign */
-    .scroll-sign {
-      position: absolute;
-      left: 3%;
-      bottom: 28%;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-    .scroll-sign-label {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      writing-mode: initial;
-    }
-    .scroll-arrow-down {
-      font-size: 18px;
-      color: var(--muted);
-      animation: bounce 2s ease-in-out infinite;
-    }
-
-    /* ── SECTIONS ── */
-    section { position: relative; z-index: 1; }
-
-    .section-wrap {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 80px 48px;
-    }
-
-    .eyebrow {
-      font-size: 11px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px;
-      font-weight: 800;
-      color: var(--ivory);
-      margin-bottom: 14px;
-      letter-spacing: -0.5px;
-    }
-    .section-line {
-      width: 36px; height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--lavender));
-      border-radius: 2px;
-      margin-bottom: 32px;
-    }
-
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-    .about-text { color: var(--muted); line-height: 1.9; }
-    .about-text p + p { margin-top: 16px; }
-    .about-text strong { color: var(--ivory); font-weight: 500; }
-    .about-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .about-card {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 20px 16px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      transition: transform 0.25s, border-color 0.25s;
-    }
-    .about-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(160,127,212,0.4);
-    }
-    .about-card-icon { font-size: 28px; margin-bottom: 8px; }
-    .about-card-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 30px;
-      font-weight: 800;
-      color: var(--gold);
-    }
-    .about-card-label { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
-
-    /* ── SKILLS ── */
-    .skills-bg {
-      background: linear-gradient(to bottom, transparent, rgba(30,18,72,0.5), transparent);
-    }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-    .skill-group {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 16px;
-      padding: 22px 18px;
-      backdrop-filter: blur(8px);
-      transition: transform 0.25s, border-color 0.25s;
-    }
-    .skill-group:hover {
-      transform: translateY(-4px);
-      border-color: rgba(160,127,212,0.35);
-    }
-    .skill-group-icon { font-size: 26px; margin-bottom: 10px; }
-    .skill-group-name {
-      font-size: 12px;
-      color: var(--lavender);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      font-weight: 500;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .skill-tag {
-      font-size: 11.5px;
-      color: var(--muted);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 6px;
-      padding: 3px 9px;
-      transition: all 0.2s;
-    }
-    .skill-tag:hover {
-      background: rgba(160,127,212,0.15);
-      border-color: rgba(160,127,212,0.35);
-      color: var(--lilac);
-    }
-
-    /* ── EDUCATION ── */
-    .edu-timeline { display: flex; flex-direction: column; gap: 0; }
-    .edu-item {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 0 28px;
-      padding-bottom: 36px;
-      position: relative;
-    }
-    .edu-item:not(:last-child)::after {
-      content:'';
-      position: absolute;
-      left: 118px;
-      top: 10px; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, rgba(160,127,212,0.5), transparent);
-    }
-    .edu-date {
-      font-size: 11px;
-      color: var(--lavender);
-      text-align: right;
-      padding-top: 2px;
-      line-height: 1.6;
-    }
-    .edu-dot {
-      position: absolute;
-      left: 113px; top: 4px;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--lavender);
-      box-shadow: 0 0 0 3px rgba(160,127,212,0.25), 0 0 12px rgba(160,127,212,0.5);
-    }
-    .edu-body { padding-left: 20px; }
-    .edu-role {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--ivory);
-      margin-bottom: 2px;
-    }
-    .edu-org { font-size: 13px; color: var(--lavender); margin-bottom: 10px; }
-    .edu-desc { font-size: 13.5px; color: var(--muted); line-height: 1.75; }
-
-    /* ── PROJECTS ── */
-    .projects-bg {
-      background: linear-gradient(to bottom, transparent, rgba(20,10,50,0.5), transparent);
-    }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-    .project-card {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 28px 24px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(8px);
-    }
-    .project-card::before {
-      content:'';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(160,127,212,0.6), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .project-card:hover {
-      border-color: rgba(160,127,212,0.3);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    }
-    .project-card:hover::before { opacity: 1; }
-    .project-emoji { font-size: 32px; margin-bottom: 14px; display: block; }
-    .project-name { font-size: 16px; font-weight: 500; color: var(--ivory); margin-bottom: 8px; }
-    .project-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .project-tag {
-      font-size: 11px;
-      color: var(--lavender);
-      background: rgba(160,127,212,0.1);
-      border: 1px solid rgba(160,127,212,0.2);
-      border-radius: 4px;
-      padding: 2px 8px;
-    }
-
-    /* ── BLOG ── */
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .blog-card {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 24px 20px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.25s;
-      backdrop-filter: blur(8px);
-    }
-    .blog-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(160,127,212,0.3);
-    }
-    .blog-tag {
-      display: inline-block;
-      font-size: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: rgba(255,217,125,0.1);
-      border: 1px solid rgba(255,217,125,0.2);
-      border-radius: 4px;
-      padding: 2px 8px;
-      margin-bottom: 12px;
-    }
-    .blog-title { font-size: 15px; font-weight: 500; color: var(--ivory); line-height: 1.45; margin-bottom: 10px; }
-    .blog-excerpt { font-size: 12.5px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
-    .blog-date { font-size: 11px; color: rgba(245,236,215,0.4); }
-
-    /* ── CONTACT ── */
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-    .contact-text { color: var(--muted); line-height: 1.9; }
-    .contact-text p + p { margin-top: 14px; }
-    .contact-links { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.25s;
-      backdrop-filter: blur(8px);
-    }
-    .contact-link:hover {
-      border-color: rgba(160,127,212,0.35);
-      transform: translateX(4px);
-    }
-    .contact-link-icon { font-size: 20px; width: 32px; text-align: center; }
-    .contact-link-label { font-size: 13px; font-weight: 500; color: var(--ivory); }
-    .contact-link-value { font-size: 12px; color: var(--muted); }
-    .contact-form { display: flex; flex-direction: column; gap: 14px; }
-    .contact-input {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 14px 18px;
-      color: var(--ivory);
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.25s;
-      backdrop-filter: blur(8px);
-    }
-    .contact-input::placeholder { color: rgba(245,236,215,0.35); }
-    .contact-input:focus { border-color: rgba(160,127,212,0.5); }
-    textarea.contact-input { resize: none; height: 120px; }
-    .contact-submit {
-      background: linear-gradient(135deg, rgba(107,63,160,0.8), rgba(60,30,120,0.8));
-      border: 1px solid rgba(160,127,212,0.3);
-      color: var(--ivory);
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    .contact-submit:hover {
-      background: linear-gradient(135deg, rgba(130,80,190,0.9), rgba(80,40,150,0.9));
-      transform: translateY(-2px);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 24px 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .footer-socials { display: flex; gap: 24px; }
-    .footer-social {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.2s;
-    }
-    .footer-social:hover { color: var(--ivory); }
-    .footer-copy { font-size: 12px; color: rgba(245,236,215,0.4); }
-    .footer-copy span { color: #f9a8d4; }
-
-    /* Floating light orbs */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      animation: drift var(--od) ease-in-out infinite;
-    }
-    @keyframes drift {
-      0%,100% { transform: translate(0, 0); }
-      50%      { transform: translate(var(--ox), var(--oy)); }
-    }
-
-    @media (max-width: 900px) {
-      nav { padding: 16px 24px; }
-      .nav-links { display: none; }
-      .hero-content { padding: 120px 24px 0; max-width: 100%; }
-      .hero-bottom { gap: 24px; padding: 32px 16px; overflow-x: auto; }
-      .quote-card { display: none; }
-      .section-wrap { padding: 60px 24px; }
-      .about-grid, .contact-inner { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .projects-grid, .blog-grid { grid-template-columns: 1fr; }
-      footer { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .star, .firefly, .scroll-arrow, .orb { animation: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 
@@ -717,7 +16,7 @@
 <div class="orb" style="width:300px;height:300px;background:radial-gradient(circle, rgba(60,20,120,0.2), transparent 70%);top:50%;right:-8%;--od:15s;--ox:-30px;--oy:50px;"></div>
 <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle, rgba(30,10,80,0.25), transparent 70%);bottom:0%;left:20%;--od:18s;--ox:60px;--oy:-40px;"></div>
 
-<!-- Stars canvas -->
+<!-- Stars -->
 <div class="stars" id="stars"></div>
 
 <!-- ── NAV ── -->
@@ -738,7 +37,6 @@
 <section class="hero" id="home">
   <div class="hero-sky"></div>
 
-  <!-- Clouds -->
   <div class="cloud c1"></div>
   <div class="cloud c2"></div>
   <div class="cloud c3"></div>
@@ -748,7 +46,6 @@
 
   <!-- Village SVG -->
   <svg class="village" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
-    <!-- Glow halos for towers -->
     <defs>
       <radialGradient id="glow1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd97d" stop-opacity="0.4"/><stop offset="100%" stop-color="#ffd97d" stop-opacity="0"/></radialGradient>
       <radialGradient id="glow2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c9a8e8" stop-opacity="0.3"/><stop offset="100%" stop-color="#c9a8e8" stop-opacity="0"/></radialGradient>
@@ -756,59 +53,43 @@
       <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
       <filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter>
     </defs>
-
-    <!-- Cloud base for village -->
     <ellipse cx="500" cy="420" rx="320" ry="80" fill="rgba(200,160,255,0.08)" filter="url(#blur4)"/>
     <ellipse cx="480" cy="400" rx="280" ry="60" fill="rgba(180,140,240,0.1)" filter="url(#blur4)"/>
     <ellipse cx="520" cy="390" rx="220" ry="50" fill="rgba(160,120,220,0.12)" filter="url(#blur4)"/>
-
-    <!-- Cloud puffs -->
     <ellipse cx="300" cy="350" rx="100" ry="45" fill="rgba(180,140,255,0.12)" filter="url(#blur4)"/>
     <ellipse cx="680" cy="300" rx="80" ry="35" fill="rgba(160,120,240,0.15)" filter="url(#blur4)"/>
     <ellipse cx="590" cy="180" rx="70" ry="30" fill="rgba(200,160,255,0.1)" filter="url(#blur4)"/>
-
-    <!-- Main castle (center-right) -->
-    <!-- Base -->
+    <!-- Main castle -->
     <rect x="490" y="280" width="120" height="120" rx="3" fill="#1a0f35" stroke="rgba(200,160,255,0.2)" stroke-width="0.5"/>
-    <!-- Windows glow -->
     <rect x="510" y="300" width="20" height="25" rx="3" fill="#ffd97d" opacity="0.7" filter="url(#blur2)"/>
     <rect x="540" y="300" width="20" height="25" rx="3" fill="#ffd97d" opacity="0.6" filter="url(#blur2)"/>
     <rect x="575" y="300" width="20" height="25" rx="3" fill="#ffd97d" opacity="0.7" filter="url(#blur2)"/>
     <rect x="510" y="340" width="20" height="18" rx="2" fill="#ffd97d" opacity="0.5" filter="url(#blur2)"/>
     <rect x="565" y="340" width="20" height="18" rx="2" fill="#ffd97d" opacity="0.5" filter="url(#blur2)"/>
-    <!-- Door arch -->
     <rect x="535" y="360" width="30" height="40" rx="8" fill="#ffd97d" opacity="0.4" filter="url(#blur2)"/>
-    <!-- Tower left -->
     <rect x="483" y="230" width="40" height="70" rx="2" fill="#160b30" stroke="rgba(200,160,255,0.15)" stroke-width="0.5"/>
     <polygon points="483,230 503,195 523,230" fill="#1e1045"/>
     <rect x="490" y="248" width="14" height="18" rx="4" fill="#ffd97d" opacity="0.6" filter="url(#blur2)"/>
-    <!-- Tower right -->
     <rect x="577" y="240" width="40" height="60" rx="2" fill="#160b30" stroke="rgba(200,160,255,0.15)" stroke-width="0.5"/>
     <polygon points="577,240 597,205 617,240" fill="#1e1045"/>
     <rect x="585" y="255" width="14" height="18" rx="4" fill="#ffd97d" opacity="0.55" filter="url(#blur2)"/>
-    <!-- Center spire -->
     <rect x="535" y="220" width="30" height="65" rx="2" fill="#160b30" stroke="rgba(200,160,255,0.15)" stroke-width="0.5"/>
     <polygon points="535,220 550,170 565,220" fill="#1e1045"/>
     <circle cx="550" cy="178" r="5" fill="#ffd97d" opacity="0.9" filter="url(#blur2)"/>
-    <!-- Castle glow -->
     <ellipse cx="550" cy="380" rx="80" ry="25" fill="url(#glow1)" filter="url(#blur6)"/>
-
-    <!-- Left floating island + house -->
+    <!-- Left house -->
     <ellipse cx="310" cy="330" rx="90" ry="30" fill="rgba(140,100,200,0.15)" filter="url(#blur4)"/>
     <rect x="265" y="260" width="90" height="75" rx="3" fill="#1a0f35" stroke="rgba(200,160,255,0.15)" stroke-width="0.5"/>
     <polygon points="255,260 310,215 365,260" fill="#1e1045"/>
     <rect x="275" y="275" width="18" height="22" rx="3" fill="#ffd97d" opacity="0.65" filter="url(#blur2)"/>
     <rect x="320" y="275" width="18" height="22" rx="3" fill="#ffd97d" opacity="0.5" filter="url(#blur2)"/>
     <rect x="295" y="300" width="30" height="35" rx="6" fill="#ffd97d" opacity="0.3" filter="url(#blur2)"/>
-    <!-- Small left tower -->
     <rect x="250" y="225" width="22" height="40" rx="2" fill="#130a28"/>
     <polygon points="250,225 261,200 272,225" fill="#1a0f35"/>
     <circle cx="261" cy="207" r="3.5" fill="#ffd97d" opacity="0.8" filter="url(#blur2)"/>
-
-    <!-- Top floating pagoda -->
+    <!-- Pagoda -->
     <ellipse cx="420" cy="135" rx="60" ry="18" fill="rgba(120,80,180,0.18)" filter="url(#blur4)"/>
     <rect x="398" y="90" width="44" height="48" rx="2" fill="#160b2e" stroke="rgba(200,160,255,0.12)" stroke-width="0.5"/>
-    <!-- Pagoda tiers -->
     <rect x="388" y="86" width="64" height="8" rx="2" fill="#1e1040"/>
     <rect x="394" y="70" width="52" height="20" rx="2" fill="#160b2e"/>
     <rect x="384" y="66" width="72" height="8" rx="2" fill="#1e1040"/>
@@ -818,22 +99,17 @@
     <rect x="406" y="105" width="12" height="16" rx="3" fill="#ffd97d" opacity="0.6" filter="url(#blur2)"/>
     <rect x="422" y="105" width="12" height="16" rx="3" fill="#ffd97d" opacity="0.55" filter="url(#blur2)"/>
     <ellipse cx="420" cy="138" rx="40" ry="12" fill="url(#glow1)" filter="url(#blur6)"/>
-
-    <!-- Suspension bridges -->
-    <!-- Bridge: pagoda to left house -->
+    <!-- Bridges -->
     <path d="M 350 145 Q 330 175 310 270" stroke="rgba(200,160,255,0.25)" stroke-width="1.5" fill="none"/>
     <path d="M 350 145 Q 310 200 275 265" stroke="rgba(200,160,255,0.15)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
-    <!-- Bridge: left house to castle -->
     <path d="M 358 318 Q 420 330 488 330" stroke="rgba(200,160,255,0.25)" stroke-width="1.5" fill="none"/>
     <path d="M 360 325 Q 420 345 488 335" stroke="rgba(200,160,255,0.15)" stroke-width="1" fill="none" stroke-dasharray="4,4"/>
-
     <!-- Hot air balloon -->
     <ellipse cx="190" cy="180" rx="28" ry="38" fill="rgba(107,63,160,0.5)" stroke="rgba(200,160,255,0.3)" stroke-width="0.8"/>
     <path d="M 162 195 Q 190 220 218 195" stroke="rgba(200,160,255,0.3)" stroke-width="0.6" fill="none"/>
     <rect x="178" y="215" width="24" height="14" rx="3" fill="rgba(30,15,60,0.8)" stroke="rgba(200,160,255,0.3)" stroke-width="0.5"/>
     <circle cx="190" cy="175" r="6" fill="rgba(255,217,125,0.5)" filter="url(#blur2)"/>
-
-    <!-- Scattered lanterns -->
+    <!-- Lanterns -->
     <g opacity="0.8">
       <ellipse cx="440" cy="230" rx="7" ry="9" fill="#ffd97d" filter="url(#blur2)"/>
       <ellipse cx="660" cy="350" rx="6" ry="8" fill="#ffd97d" filter="url(#blur2)" opacity="0.7"/>
@@ -841,35 +117,26 @@
       <ellipse cx="730" cy="200" rx="5" ry="7" fill="#ffd97d" filter="url(#blur2)" opacity="0.5"/>
       <ellipse cx="370" cy="400" rx="5" ry="7" fill="#ffd97d" filter="url(#blur2)" opacity="0.6"/>
     </g>
-
-    <!-- Stars around village -->
+    <!-- Stars -->
     <circle cx="160" cy="80"  r="1.5" fill="white" opacity="0.7"/>
     <circle cx="720" cy="120" r="1"   fill="white" opacity="0.6"/>
     <circle cx="640" cy="60"  r="1.5" fill="white" opacity="0.8"/>
     <circle cx="200" cy="140" r="1"   fill="white" opacity="0.5"/>
     <circle cx="680" cy="170" r="1.5" fill="white" opacity="0.6"/>
     <circle cx="760" cy="280" r="1"   fill="white" opacity="0.5"/>
-
-    <!-- Big glow behind castle -->
     <ellipse cx="550" cy="290" rx="130" ry="80" fill="url(#glow2)" filter="url(#blur6)" opacity="0.5"/>
-
-    <!-- Tree branches (sides) -->
+    <!-- Trees -->
     <path d="M 760 450 Q 740 380 760 320 Q 770 360 790 340 Q 775 370 785 400 Q 800 370 810 350 Q 795 390 800 430" fill="none" stroke="rgba(80,40,120,0.4)" stroke-width="3" stroke-linecap="round"/>
     <path d="M 800 450 Q 820 380 800 310" fill="none" stroke="rgba(80,40,120,0.3)" stroke-width="2" stroke-linecap="round"/>
   </svg>
 
-  <!-- Bridge glow -->
   <div class="bridge-glow"></div>
 
-  <!-- Fireflies (generated by JS) -->
-
-  <!-- Scroll sign -->
   <div class="scroll-sign">
     <div class="scroll-sign-label">Scroll</div>
     <div class="scroll-arrow-down">↓</div>
   </div>
 
-  <!-- Hero text -->
   <div class="hero-content">
     <div class="hero-welcome">
       <span class="star-icon">✦</span> Welcome to <span class="star-icon">✦</span>
@@ -879,14 +146,12 @@
     <a href="#about" class="hero-cta">Khám phá ngôi làng ↓</a>
   </div>
 
-  <!-- Quote card -->
   <div class="quote-card">
     <div class="quote-icon">☁️</div>
     <p class="quote-text">Ở nơi mây trời lửng lơ, mỗi dòng code là một ánh sáng nhỏ.</p>
     <div class="quote-heart">♡</div>
   </div>
 
-  <!-- Bottom navigation icons -->
   <div class="hero-bottom">
     <a href="#about" class="nav-icon-item">
       <div class="nav-icon-circle">🏠</div>
@@ -915,7 +180,6 @@
     </a>
   </div>
 
-  <!-- Scroll indicator -->
   <a href="#about" class="scroll-arrow">↓</a>
 </section>
 
@@ -925,7 +189,6 @@
     <div class="eyebrow">// về mình</div>
     <h2 class="section-title">Chào, mình là Huỳnh Y</h2>
     <div class="section-line"></div>
-
     <div class="about-grid">
       <div class="about-text">
         <p>Mình là <strong>Nguyễn Phạm Ý Huỳnh</strong>, sinh ngày <strong>11/08/2006</strong>, hiện đang là sinh viên năm 3 chuyên ngành <strong>Công nghệ Thông tin</strong> tại Hồ Chí Minh.</p>
@@ -964,7 +227,6 @@
     <div class="eyebrow">// kỹ năng</div>
     <h2 class="section-title">Tech Stack của mình</h2>
     <div class="section-line"></div>
-
     <div class="skills-grid">
       <div class="skill-group">
         <div class="skill-group-icon">🎨</div>
@@ -1019,7 +281,6 @@
     <div class="eyebrow">// học tập</div>
     <h2 class="section-title">Hành trình học tập</h2>
     <div class="section-line"></div>
-
     <div class="edu-timeline">
       <div class="edu-item">
         <div class="edu-date">2024<br/>— nay</div>
@@ -1058,7 +319,6 @@
     <div class="eyebrow">// dự án</div>
     <h2 class="section-title">Những gì mình đã xây</h2>
     <div class="section-line"></div>
-
     <div class="projects-grid">
       <a class="project-card" href="#">
         <span class="project-emoji">🌐</span>
@@ -1110,7 +370,6 @@
     <div class="eyebrow">// nhật ký</div>
     <h2 class="section-title">Những điều mình ghi lại</h2>
     <div class="section-line"></div>
-
     <div class="blog-grid">
       <a class="blog-card" href="#">
         <span class="blog-tag">Học tập</span>
@@ -1140,7 +399,6 @@
     <div class="eyebrow">// liên hệ</div>
     <h2 class="section-title">Hãy nói chuyện với mình</h2>
     <div class="section-line"></div>
-
     <div class="contact-inner">
       <div>
         <div class="contact-text">
@@ -1171,7 +429,6 @@
           </a>
         </div>
       </div>
-
       <div class="contact-form">
         <input class="contact-input" type="text" placeholder="Tên của bạn ✨"/>
         <input class="contact-input" type="email" placeholder="Email của bạn ✉️"/>
@@ -1193,61 +450,11 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       LinkedIn
     </a>
-    <a href="mailto:yhuynh@example.com" class="footer-social">
-      ✉️ Email
-    </a>
+    <a href="mailto:yhuynh@example.com" class="footer-social">✉️ Email</a>
   </div>
   <div class="footer-copy">© 2025 Huỳnh Y. Made with <span>♥</span> and lots of ☁️</div>
 </footer>
 
-<script>
-  // Stars
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 120; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width:${size}px; height:${size}px;
-      top:${Math.random()*100}%;
-      left:${Math.random()*100}%;
-      --d:${2 + Math.random()*5}s;
-      animation-delay:${Math.random()*5}s;
-    `;
-    starsEl.appendChild(s);
-  }
-
-  // Fireflies
-  const hero = document.querySelector('.hero');
-  for (let i = 0; i < 28; i++) {
-    const f = document.createElement('div');
-    f.className = 'firefly';
-    const size = Math.random() * 3 + 2;
-    f.style.cssText = `
-      width:${size}px; height:${size}px;
-      top:${30 + Math.random()*65}%;
-      left:${Math.random()*90}%;
-      --fd:${5 + Math.random()*8}s;
-      --ft:${1.5 + Math.random()*3}s;
-      --fx:${(Math.random()-0.5)*80}px;
-      --fy:${(Math.random()-0.5)*60}px;
-      animation-delay:${Math.random()*6}s;
-      opacity:${0.4 + Math.random()*0.6};
-    `;
-    hero.appendChild(f);
-  }
-
-  // Nav active link on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let cur = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
-    navLinks.forEach(a => {
-      a.classList.remove('active');
-      if (a.getAttribute('href') === '#'+cur) a.classList.add('active');
-    });
-  });
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
